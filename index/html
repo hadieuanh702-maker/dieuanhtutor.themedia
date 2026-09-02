@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 8 · The Media Vocabulary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141414; --paper:#F1EFE9; --card:#FFFFFF;
+    --red:#E4142D; --red-pale:#FCE1E4;
+    --blue:#1C4FA0; --blue-pale:#E4ECF8;
+    --gold:#F2B705; --gold-pale:#FDF1CC;
+    --ink-soft:#4B4B4B;
+    --shadow:0 10px 24px rgba(20,20,20,.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; color:var(--ink); font-family:'Be Vietnam Pro',sans-serif;
+    background:
+      repeating-linear-gradient(90deg, rgba(20,20,20,.025) 0 1px, transparent 1px 3px),
+      var(--paper);
+  }
+  .display{font-family:'Anton',sans-serif; letter-spacing:.02em; text-transform:uppercase;}
+  .mono{font-family:'DM Mono',monospace;}
+  ::selection{background:var(--gold); color:var(--ink);}
+
+  .ticker{background:var(--ink); color:var(--gold); font-family:'DM Mono',monospace; font-size:12px; padding:6px 0; overflow:hidden; white-space:nowrap;}
+  .ticker span{display:inline-block; padding-left:100%; animation:tick 26s linear infinite;}
+  @keyframes tick{0%{transform:translateX(0);} 100%{transform:translateX(-100%);}}
+
+  .hero{max-width:1100px; margin:22px auto 0; padding:0 16px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+  .hero-badge{display:inline-flex; align-items:center; gap:8px; background:var(--red); color:#fff; font-family:'Anton',sans-serif; font-size:12.5px; letter-spacing:.06em; padding:6px 14px; border-radius:4px;}
+  .hero h1{font-family:'Anton',sans-serif; font-size:clamp(32px,6vw,54px); margin:10px 0 6px; line-height:.95; text-transform:uppercase;}
+  .hero p{color:var(--ink-soft); font-size:15px; max-width:560px; margin:0;}
+  .hero-emoji{font-size:42px;}
+
+  nav.tabs{max-width:1100px; margin:22px auto 0; padding:0 16px; display:flex; gap:14px; flex-wrap:wrap;}
+  nav.tabs button{
+    flex:1; min-width:220px; font-family:'Anton',sans-serif; font-size:18px; letter-spacing:.03em;
+    padding:15px 20px; border:none; cursor:pointer; background:var(--card); color:var(--ink-soft);
+    box-shadow:var(--shadow); display:flex; align-items:center; justify-content:center; gap:8px; transition:.15s;
+    text-transform:uppercase; clip-path:polygon(0 0,100% 0,96% 100%,0% 100%);
+  }
+  nav.tabs button .num{width:24px;height:24px;border-radius:50%; background:var(--blue-pale); color:var(--blue); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:12px;}
+  nav.tabs button.active{background:var(--red); color:#fff;}
+  nav.tabs button.active .num{background:rgba(255,255,255,.25); color:#fff;}
+  nav.tabs button:not(.active):hover{background:var(--red-pale);}
+
+  main{max-width:1100px; margin:24px auto 60px; padding:0 16px;}
+  .view{display:none;} .view.active{display:block; animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+  section.block{margin-bottom:36px;}
+  .block-head{display:flex; align-items:center; gap:12px; margin-bottom:6px;}
+  .block-icon{width:40px;height:40px;border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:19px; background:var(--blk-color,var(--red)); flex-shrink:0;}
+  .block-title{font-family:'Anton',sans-serif; font-size:23px; letter-spacing:.02em; text-transform:uppercase;}
+  .block-desc{color:var(--ink-soft); font-size:13.5px; margin:0 0 16px 52px;}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .chip{font-family:'Anton',sans-serif; font-size:13px; letter-spacing:.02em; padding:7px 15px; border:2px solid var(--ink); background:#fff; cursor:pointer; text-transform:uppercase;}
+  .chip.active{background:var(--ink); color:var(--gold);}
+  .chip:hover:not(.active){background:var(--gold-pale);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;}
+  .card{perspective:1200px; height:200px; cursor:pointer;}
+  .card-inner{position:relative; width:100%; height:100%; transition:transform .5s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;}
+  .card.flip .card-inner{transform:rotateY(180deg);}
+  .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:6px; padding:14px 16px; display:flex; flex-direction:column; box-shadow:0 3px 10px rgba(20,20,20,.12);}
+  .front{background:#fff; border:2px solid var(--ink); justify-content:space-between;}
+  .front .ico{font-size:22px;}
+  .front .exq{font-size:13px; line-height:1.5; margin-top:6px; color:var(--ink); flex:1;}
+  .front .exq b{color:var(--red); text-decoration:underline; text-decoration-style:dotted;}
+  .front .tap{margin-top:auto; font-size:10px; color:var(--blue); letter-spacing:.03em; font-family:'DM Mono',monospace;}
+  .back{background:var(--ink); color:#fff; transform:rotateY(180deg); justify-content:center; gap:6px;}
+  .back .w{font-family:'Anton',sans-serif; font-size:22px; color:var(--gold); text-transform:uppercase;}
+  .back .pos{font-size:11px; color:#ccc; font-style:italic; margin-bottom:4px;}
+  .back .vi{font-weight:700; font-size:13.5px;}
+  .back .def{font-size:11.5px; color:#ddd; font-style:italic;}
+
+  table.ref{width:100%; border-collapse:collapse; font-size:13.5px;}
+  table.ref th{text-align:left; font-family:'Anton',sans-serif; font-size:12.5px; letter-spacing:.02em; background:var(--ink); color:var(--gold); padding:8px 10px; text-transform:uppercase;}
+  table.ref td{padding:8px 10px; border-bottom:1px solid #ddd; vertical-align:top;}
+  table.ref tr:nth-child(even) td{background:#fafaf8;}
+  .kw{color:var(--red); font-weight:700;}
+
+  .practice-hero{background:var(--ink); border-radius:6px; padding:24px 28px; color:#fff; margin-bottom:24px; position:relative; overflow:hidden;}
+  .practice-hero::before{content:"ON AIR"; position:absolute; right:-10px; top:-10px; font-family:'Anton',sans-serif; font-size:70px; color:rgba(228,20,45,.12);}
+  .practice-hero h2{font-family:'Anton',sans-serif; font-size:26px; margin:0 0 4px; letter-spacing:.03em; text-transform:uppercase;}
+  .practice-hero p{margin:0; opacity:.85; font-size:13.5px;}
+  .jumpnav{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:24px; position:sticky; top:8px; z-index:5;}
+  .jumpnav a{font-family:'Anton',sans-serif; font-size:13px; background:var(--card); border:2px solid var(--ink); color:var(--ink); padding:7px 14px; text-decoration:none; box-shadow:var(--shadow);}
+  .jumpnav a:hover{background:var(--gold-pale);}
+  .psec{background:var(--card); border-radius:6px; padding:24px 26px; box-shadow:var(--shadow); margin-bottom:26px; scroll-margin-top:66px; border-left:5px solid var(--red);}
+  .psec-head{display:flex; align-items:center; gap:12px; margin-bottom:6px;}
+  .psec-icon{width:38px;height:38px; display:flex; align-items:center; justify-content:center; font-size:18px; background:var(--sec-color,var(--red)); color:#fff; font-family:'Anton',sans-serif;}
+  .psec-title{font-family:'Anton',sans-serif; font-size:19px; letter-spacing:.02em; text-transform:uppercase;}
+  .psec-instr{color:var(--ink-soft); font-size:13px; margin:0 0 16px 50px;}
+
+  .bank{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; background:var(--gold-pale); border:2px dashed var(--gold); border-radius:8px; padding:12px;}
+  .bank span{font-family:'DM Mono',monospace; font-size:12px; background:#fff; border:1px solid #ecd68a; padding:4px 10px; border-radius:5px;}
+
+  .prow{display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 4px; border-bottom:1px dashed #ddd; font-size:14px;}
+  .prow .qn{font-family:'DM Mono',monospace; font-weight:700; color:var(--red); min-width:26px;}
+  .prow input{font-family:'DM Mono',monospace; border:none; border-bottom:2px solid var(--ink); background:transparent; padding:4px 6px; font-size:13.5px; outline:none; min-width:120px; flex:1;}
+  .prow input.correct{border-color:#2f9e4f; color:#0a7d3a;} .prow input.incorrect{border-color:var(--red); color:var(--red);}
+  .prow .capw{font-family:'DM Mono',monospace; font-size:10.5px; background:var(--blue-pale); border:1px solid var(--blue); color:var(--blue); padding:2px 8px; border-radius:4px;}
+  .prow .wrongw{font-family:'DM Mono',monospace; font-size:12px; background:#fff; border:1px solid var(--red); color:var(--red); text-decoration:line-through; padding:2px 8px; border-radius:4px;}
+  .prow .reveal{font-size:11.5px; color:#0a7d3a; font-style:italic; display:none; width:100%;}
+
+  .mcq-item{margin-bottom:14px; padding:12px 14px; background:var(--blue-pale); border-radius:8px;}
+  .mcq-q{font-size:14px; margin-bottom:9px; line-height:1.5;}
+  .mcq-q .qn{font-family:'DM Mono',monospace; font-weight:700; color:var(--blue); margin-right:6px;}
+  .mcq-opts{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px;}
+  .mcq-opts button{text-align:left; font-size:13px; padding:8px 11px; border:2px solid #fff; background:#fff; border-radius:6px; cursor:pointer; font-family:inherit;}
+  .mcq-opts button.selected{background:#d8d8d8; border-color:var(--ink);}
+  .mcq-opts button.correct{background:#d4f2dc; border-color:#2f9e4f;}
+  .mcq-opts button.wrong{background:#ffd6db; border-color:var(--red);}
+
+  .checkbar{display:flex; align-items:center; gap:16px; margin-top:14px; flex-wrap:wrap;}
+  .check-btn{font-family:'Anton',sans-serif; font-size:14px; letter-spacing:.03em; background:var(--red); color:#fff; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; text-transform:uppercase;}
+  .result-tag{font-family:'DM Mono',monospace; font-size:13px; color:var(--ink-soft);}
+
+  footer{text-align:center; color:var(--ink-soft); font-size:12px; padding:20px 0 50px;}
+  @media(max-width:640px){
+    .mcq-opts{grid-template-columns:1fr;}
+    .block-desc, .psec-instr{margin-left:0;}
+    .psec{padding:18px;}
+  }
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="ticker"><span>📰 BREAKING: NEW VOCABULARY JUST IN — TAP EACH STORY CARD TO REVEAL THE HEADLINE MEANING · UNIT 8: THE MEDIA · STAY TUNED FOR THE PRACTICE STUDIO 📺</span></div>
+
+<div class="hero">
+  <div>
+    <div class="hero-badge">📡 Unit 8 · Breaking Vocabulary</div>
+    <h1>The Media</h1>
+    <p>Từ vựng chủ đề Truyền thông — đọc ví dụ trước, đoán nghĩa, rồi lật thẻ để kiểm tra! Có nghĩa tiếng Anh, tiếng Việt và trang luyện tập riêng.</p>
+  </div>
+  <div class="hero-emoji">📰📺🎙️</div>
+</div>
+
+<nav class="tabs">
+  <button class="active" data-view="learn"><span class="num">1</span> Newsroom</button>
+  <button data-view="practice"><span class="num">2</span> Practice Studio</button>
+</nav>
+
+<main>
+
+  <!-- ============ PAGE 1: VOCABULARY ============ -->
+  <div class="view active" id="view-learn">
+
+    <section class="block">
+      <div class="block-head"><div class="block-icon" style="--blk-color:var(--red)">🔎</div><div class="block-title">Guess the Headline</div></div>
+      <div class="block-desc">Đọc ví dụ trên mặt trước, đoán nghĩa của từ in đậm, rồi nhấn vào thẻ để xem đáp án.</div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="vocabGrid"></div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><div class="block-icon" style="--blk-color:var(--blue)">🔁</div><div class="block-title">Phrasal Verbs</div></div>
+      <div class="block-desc">Các cụm động từ thường dùng khi nói về báo chí, truyền hình.</div>
+      <div class="grid" id="phrasalGrid"></div>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><div class="block-icon" style="--blk-color:var(--gold)">💬</div><div class="block-title">Phrases &amp; Collocations</div></div>
+      <div class="block-desc">Các cụm từ cố định thường đi cùng những từ khoá này.</div>
+      <table class="ref"><thead><tr><th>Word</th><th>Common phrases</th></tr></thead><tbody id="collocBody"></tbody></table>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><div class="block-icon" style="--blk-color:#333">🧩</div><div class="block-title">Word Patterns</div></div>
+      <div class="block-desc">Giới từ / cấu trúc động từ đi kèm.</div>
+      <table class="ref"><thead><tr><th>Word</th><th>Pattern</th></tr></thead><tbody id="patternBody"></tbody></table>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><div class="block-icon" style="--blk-color:var(--red)">🌳</div><div class="block-title">Word Formation</div></div>
+      <div class="block-desc">Các từ cùng họ — danh từ, tính từ, động từ.</div>
+      <table class="ref"><thead><tr><th>Base word</th><th>Related forms</th></tr></thead><tbody id="familyBody"></tbody></table>
+    </section>
+
+  </div>
+
+  <!-- ============ PAGE 2: PRACTICE ============ -->
+  <div class="view" id="view-practice">
+    <div class="practice-hero"><h2>📺 Practice Studio</h2><p>Luyện tập với 8 bài dựa trên từ vựng vừa học.</p></div>
+    <div class="jumpnav" id="jumpnav"></div>
+    <div id="sections"></div>
+  </div>
+
+</main>
+
+<footer>Newsroom-themed classroom lesson · Unit 8 The Media 📰</footer>
+
+<script>
+/* ============ VOCAB DATA ============ */
+const VOCAB = [
+  {en:"deny",pos:"v",icon:"🙅",cat:"opinions",vi:"phủ nhận",def:"nói rằng điều gì đó không đúng sự thật",ex:"A spokesman <b>denied</b> that the company had acted irresponsibly."},
+  {en:"refuse",pos:"v",icon:"🚫",cat:"opinions",vi:"từ chối",def:"nói rằng bạn sẽ không làm/chấp nhận điều gì",ex:"I asked him to apologise, but he <b>refused</b>."},
+  {en:"agree",pos:"v",icon:"🤝",cat:"opinions",vi:"đồng ý",def:"có cùng quan điểm với ai đó",ex:"Doreen thought the house was too small, and Jim <b>agreed</b>."},
+  {en:"accept",pos:"v",icon:"✅",cat:"opinions",vi:"chấp nhận, thừa nhận",def:"công nhận rằng điều gì đó là đúng, công bằng",ex:"Most scientists <b>accept</b> that climate change is linked to pollution."},
+  {en:"headline",pos:"n",icon:"📰",cat:"print",vi:"tiêu đề (in đậm, cỡ lớn)",def:"tựa đề của một bản tin báo, in chữ to",ex:"The front page was taken up with the <b>headline</b> 'YOU LIAR!'."},
+  {en:"heading",pos:"n",icon:"📝",cat:"print",vi:"tiêu đề (đầu trang/đoạn văn)",def:"tựa đề ở đầu một trang hoặc đoạn viết",ex:"If you look at the <b>heading</b>, it'll tell you what the paragraph is about."},
+  {en:"feature",pos:"n",icon:"⭐",cat:"print",vi:"bài viết/chuyên mục đặc biệt",def:"bài báo hoặc phần chương trình tập trung vào một chủ đề",ex:"This week we've got a special <b>feature</b> on new children's books."},
+  {en:"article",pos:"n",icon:"📄",cat:"print",vi:"bài báo",def:"một bài viết trên báo hoặc tạp chí",ex:"He has written several <b>articles</b> for The Times."},
+  {en:"tabloid",pos:"n",icon:"🗞️",cat:"print",vi:"báo lá cải",def:"báo khổ nhỏ, ít tin nghiêm túc",ex:"I don't know why you waste your money on that <b>tabloid</b>."},
+  {en:"broadsheet",pos:"n",icon:"📃",cat:"print",vi:"báo khổ lớn (nghiêm túc)",def:"báo nghiêm túc, in trên khổ giấy lớn",ex:"The Daily Telegraph and The Guardian are both <b>broadsheets</b>."},
+  {en:"press",pos:"n",icon:"🖨️",cat:"print",vi:"báo chí (nói chung)",def:"báo và tạp chí tin tức, hoặc giới nhà báo",ex:"She has been criticised in the <b>press</b> for not speaking out."},
+  {en:"media",pos:"n",icon:"📡",cat:"print",vi:"truyền thông",def:"đài, TV, báo, Internet, tạp chí nói chung",ex:"The story has been widely reported in the <b>media</b>."},
+  {en:"talk show",pos:"n",icon:"🎙️",cat:"broadcast",vi:"chương trình trò chuyện",def:"chương trình người nổi tiếng nói về bản thân/công việc",ex:"Did you see Johnny Depp on that <b>talk show</b> last night?"},
+  {en:"quiz show",pos:"n",icon:"❓",cat:"broadcast",vi:"chương trình đố vui có thưởng",def:"chương trình trả lời câu hỏi để giành giải thưởng",ex:"Maybe you should go on a <b>quiz show</b>."},
+  {en:"game show",pos:"n",icon:"🎮",cat:"broadcast",vi:"chương trình trò chơi truyền hình",def:"chương trình chơi trò chơi để giành giải thưởng",ex:"Bruce Forsyth used to host a <b>game show</b> called The Generation Game."},
+  {en:"programme",pos:"n",icon:"📺",cat:"broadcast",vi:"chương trình (TV/radio)",def:"một buổi phát sóng truyền hình hoặc radio",ex:"More people watch the news than any other <b>programme</b>."},
+  {en:"program",pos:"n",icon:"💻",cat:"broadcast",vi:"chương trình (máy tính)",def:"chuỗi lệnh khiến máy tính thực hiện việc gì",ex:"I'm getting a new word processing <b>program</b> for my laptop."},
+  {en:"channel",pos:"n",icon:"📡",cat:"broadcast",vi:"kênh (truyền hình)",def:"đài truyền hình và các chương trình nó phát sóng",ex:"What's on the other <b>channel</b>?"},
+  {en:"broadcast",pos:"n",icon:"📶",cat:"broadcast",vi:"buổi phát sóng",def:"một chương trình được phát sóng",ex:"We usually watch Channel 5's main news <b>broadcast</b> in the evening."},
+  {en:"bulletin",pos:"n",icon:"🕐",cat:"broadcast",vi:"bản tin ngắn",def:"một bản tin phát sóng ngắn",ex:"There's a two-minute news <b>bulletin</b> on at eleven o'clock."},
+  {en:"newsflash",pos:"n",icon:"⚡",cat:"broadcast",vi:"tin nóng, tin khẩn",def:"tin tức quan trọng phát xen giữa chương trình",ex:"We interrupt this programme to bring you a <b>newsflash</b>."},
+  {en:"announcer",pos:"n",icon:"🎤",cat:"people",vi:"người dẫn chương trình (giới thiệu)",def:"người thông báo thông tin giữa các chương trình",ex:"The <b>announcer</b> just said the football match is on instead."},
+  {en:"commentator",pos:"n",icon:"🗣️",cat:"people",vi:"bình luận viên",def:"người mô tả một sự kiện khi nó đang diễn ra",ex:"I'd love to be a sports <b>commentator</b>."},
+  {en:"journalist",pos:"n",icon:"🖋️",cat:"people",vi:"nhà báo",def:"người có nghề đưa tin",ex:"Enid works as a <b>journalist</b> for the local newspaper."},
+  {en:"columnist",pos:"n",icon:"✍️",cat:"people",vi:"người viết chuyên mục",def:"nhà báo viết loạt bài định kỳ cho một tờ báo",ex:"As a <b>columnist</b>, I'm allowed to express my opinion."},
+];
+
+const PHRASALS = [
+  {en:"bring up",icon:"💡",vi:"bắt đầu đề cập một chủ đề",ex:"She <b>brought up</b> the topic of pay rises at the meeting."},
+  {en:"come on",icon:"▶️",vi:"bắt đầu được phát sóng",ex:"Shh, the news is about to <b>come on</b>!"},
+  {en:"come out",icon:"📖",vi:"được xuất bản",ex:"Her new novel <b>comes out</b> next month."},
+  {en:"fill in",icon:"📝",vi:"điền thông tin vào (biểu mẫu)",ex:"Please <b>fill in</b> this form before your interview."},
+  {en:"flick through",icon:"📖",vi:"lướt xem nhanh (tạp chí...)",ex:"I <b>flicked through</b> the magazine while waiting."},
+  {en:"go into",icon:"🔍",vi:"đi sâu vào chi tiết",ex:"The report didn't <b>go into</b> the causes of the problem."},
+  {en:"hand out",icon:"🤲",vi:"phát cho mọi người",ex:"They were <b>handing out</b> free samples outside the shop."},
+  {en:"look up",icon:"🔎",vi:"tra cứu thông tin",ex:"I'll <b>look up</b> the address in the phone book."},
+  {en:"make out",icon:"🤔",vi:"giả vờ là thật; nghe/nhìn/hiểu một cách khó khăn",ex:"He <b>made out</b> that he'd never heard of her."},
+  {en:"make up",icon:"📚",vi:"bịa ra (câu chuyện, lý do)",ex:"She <b>made up</b> an excuse for being late."},
+  {en:"put forward",icon:"💭",vi:"đề xuất",ex:"He <b>put forward</b> a new plan for the festival."},
+  {en:"see through",icon:"👁️",vi:"nhận ra điều gì không đúng, không bị lừa",ex:"I could <b>see through</b> his excuse immediately."},
+  {en:"stand out",icon:"🌟",vi:"nổi bật, dễ nhận ra",ex:"Her bright red coat made her <b>stand out</b> in the crowd."},
+  {en:"turn over",icon:"🔄",vi:"lật trang",ex:"Please <b>turn over</b> and answer the next question."},
+];
+
+const COLLOC = [
+  {w:"control",p:"in control (of sth); take control (of sth); under control; out of control"},
+  {w:"description",p:"give a description of sth/sb"},
+  {w:"difference",p:"make a difference (to sth/sb); tell the difference (between); little difference between"},
+  {w:"granted",p:"take sth/sb for granted"},
+  {w:"influence",p:"influence sth/sb; have/be an influence on sth/sb"},
+  {w:"Internet",p:"on the Internet; over the Internet; surf the Internet"},
+  {w:"news",p:"in the news; on the news; hear the news; newsflash; newspaper"},
+  {w:"place",p:"take place; in place of; at a place"},
+  {w:"question",p:"ask/answer a question; question sth/sb; in question; question mark"},
+  {w:"view",p:"have/hold/take a view; be sb's view that; in my view; in view of; view from"},
+  {w:"watch",p:"watch sth/sb; watch (out) for sth/sb; keep watch"},
+];
+
+const PATTERNS = [
+  {w:"according",p:"according to sb"},
+  {w:"announce",p:"announce sth (to sb); announce that"},
+  {w:"believe",p:"believe sth; believe in sth; believe that; believe to be"},
+  {w:"comment",p:"comment on sth; make a comment (to sb) about sth"},
+  {w:"confuse",p:"confuse sth/sb with sth/sb; confused about/by"},
+  {w:"correspond",p:"correspond with sth/sb"},
+  {w:"describe",p:"describe sth/sb as; describe sth/sb to sb"},
+  {w:"hear",p:"hear sth/sb; hear about sth/sb; hear from sb"},
+  {w:"inform",p:"inform sb that; inform sb about/of sth"},
+  {w:"likely",p:"likely to do; likely that"},
+  {w:"persuade",p:"persuade sb to do; persuade sb that; persuade sb of sth"},
+  {w:"point",p:"point (in) doing"},
+  {w:"send",p:"send sb sth; send sth (to sb)"},
+  {w:"surprise",p:"by surprise; surprised at/by"},
+  {w:"tell",p:"tell sb sth; tell sb that; tell sb about sth/doing; tell sb (not) to do"},
+];
+
+const FAMILIES = [
+  {b:"announce",f:"announcement, (un)announced"},
+  {b:"belief",f:"disbelief, believe, (un)believable, (un)believably"},
+  {b:"communicate",f:"communication, (un)communicative, communicator"},
+  {b:"convince",f:"convinced, (un)convincing"},
+  {b:"discuss",f:"discussion"},
+  {b:"edit",f:"editor, editorial, edited"},
+  {b:"humour",f:"humorous, humourless"},
+  {b:"inform",f:"information, (un)informed, (un)informative"},
+  {b:"journal",f:"journalist, journalism, journalistic"},
+  {b:"politics",f:"political(ly), politician"},
+  {b:"power",f:"powerful(ly), powerless(ly), empower"},
+  {b:"ridicule",f:"ridiculous(ly), ridiculousness"},
+  {b:"second",f:"secondly, secondary"},
+  {b:"write",f:"writer, writing, wrote, (un)written"},
+];
+
+const CATS = [
+  {id:"all",label:"All words"},{id:"opinions",label:"Opinions"},{id:"print",label:"Print & Press"},
+  {id:"broadcast",label:"Broadcast"},{id:"people",label:"People"},
+];
+
+const chipsEl = document.getElementById('chips');
+CATS.forEach(c=>{
+  const b=document.createElement('button');
+  b.className='chip'+(c.id==='all'?' active':''); b.textContent=c.label; b.dataset.cat=c.id;
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+    renderVocab(c.id);
+  });
+  chipsEl.appendChild(b);
+});
+
+function card(item){
+  return `<div class="card"><div class="card-inner">
+    <div class="face front"><div class="ico">${item.icon}</div><div class="exq">"${item.ex}"</div><div class="tap">🤔 What does it mean? Tap →</div></div>
+    <div class="face back"><div class="w">${item.en}</div><div class="pos">${item.pos}</div><div class="vi">${item.vi}</div><div class="def">${item.def}</div></div>
+  </div></div>`;
+}
+function renderVocab(cat){
+  const grid = document.getElementById('vocabGrid');
+  const list = cat==='all'?VOCAB:VOCAB.filter(v=>v.cat===cat);
+  grid.innerHTML = list.map(card).join('');
+  attachFlip(grid);
+}
+function attachFlip(container){ container.querySelectorAll('.card').forEach(c=> c.addEventListener('click', ()=> c.classList.toggle('flip'))); }
+renderVocab('all');
+const pGrid = document.getElementById('phrasalGrid');
+pGrid.innerHTML = PHRASALS.map(item=>`<div class="card"><div class="card-inner">
+    <div class="face front"><div class="ico">${item.icon}</div><div class="exq">"${item.ex}"</div><div class="tap">🤔 What does it mean? Tap →</div></div>
+    <div class="face back"><div class="w" style="font-size:17px;">${item.en}</div><div class="vi">${item.vi}</div></div>
+  </div></div>`).join('');
+attachFlip(pGrid);
+
+document.getElementById('collocBody').innerHTML = COLLOC.map(c=>`<tr><td class="kw">${c.w}</td><td>${c.p}</td></tr>`).join('');
+document.getElementById('patternBody').innerHTML = PATTERNS.map(p=>`<tr><td class="kw">${p.w}</td><td>${p.p}</td></tr>`).join('');
+document.getElementById('familyBody').innerHTML = FAMILIES.map(f=>`<tr><td class="kw">${f.b}</td><td>${f.f}</td></tr>`).join('');
+
+/* ============ TAB SWITCH ============ */
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.toggle('active', x===b));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+b.dataset.view).classList.add('active');
+  });
+});
+
+/* ============ PRACTICE DATA ============ */
+const A_BANKS = [["deny","refuse"],["agree","accept"],["heading","headline"],["feature","article"],["press","media"],["bulletin","newsflash"]];
+const EX_A = [
+  {before:"John Sanders, MP,",after:"any involvement in the scandal when asked about it yesterday.",ans:["denied"]},
+  {before:"The politician",after:"to say more when questioned by reporters this morning.",ans:["refused"]},
+  {before:"Johnny Depp rarely",after:"invitations to do interviews.",ans:["accepts"]},
+  {before:"Johnny Depp",after:"to appear at a press conference to promote his latest film.",ans:["agreed"]},
+  {before:"Did you see the newspaper",after:"this morning?",ans:["headline"]},
+  {before:"If you give every paragraph of your report a",after:", it'll be easier to read.",ans:["heading"]},
+  {before:"Living Today has got a special",after:"this month on healthy diets.",ans:["feature"]},
+  {before:"There's an interesting",after:"in the paper about the Constitution of the European Union.",ans:["article"]},
+  {before:"I generally trust what I hear on the news, but rarely believe anything I read in the",after:".",ans:["press"]},
+  {before:"The",after:"involve print journalism, TV, radio and even electronic forms of communication such as the Internet.",ans:["media"]},
+  {before:"We interrupt this programme to bring you an urgent",after:".",ans:["newsflash"]},
+  {before:"And we'll be back with our regular",after:"at seven o'clock.",ans:["bulletin"]},
+];
+
+const EX_B = [
+  {t:"It's a great computer ______ once you get the hang of it.",o:["programme","program"],a:1},
+  {t:"I hate ______ newspapers; they're just full of gossip, scandal and lies!",o:["tabloid","broadsheet"],a:0},
+  {t:"As a ______ for a local paper, you don't have to interview people or attend events. You just have to express your opinions.",o:["journalist","columnist"],a:1},
+  {t:"There's a great ______ show on BBC1 tonight. Contestants have to race through a supermarket filling their trolleys.",o:["talk","quiz","game"],a:2},
+  {t:"On some TV channels, ______ tells you what the next programme is going to be.",o:["an announcer","a commentator"],a:0},
+  {t:"Join us at half past nine for a live ______ of the State Opening of Parliament.",o:["broadcast","channel"],a:0},
+];
+
+const EX_C = [
+  {before:"Please do not",after:"over your examination papers until you are instructed to do so.",ans:["turn"]},
+  {before:"I had to",after:"in so many forms. It took me hours!",ans:["fill"]},
+  {before:"I'd like everyone here to",after:"forward as many suggestions as possible.",ans:["put"]},
+  {before:"There was a guy in the street",after:"out free tickets to that new quiz show.",ans:["handing"]},
+  {before:"He",after:"out that he'd worked in children's TV, but in fact he's never been near a TV studio!",ans:["made"]},
+  {before:"Could you",after:"up her number in the phone book?",ans:["look"]},
+  {before:"She",after:"out as one of the finest contemporary British novelists around at the moment.",ans:["stands"]},
+];
+
+const EX_D = [
+  {orig:"Her latest bestseller was published last month.", before:"Her latest bestseller", after:"last month.", word:"(out)", ans:["came out"]},
+  {orig:"That story's not true, is it?", before:"You", after:", didn't you?", word:"(up)", ans:["made it up","made that up"]},
+  {orig:"The programme starts at half past six.", before:"The programme", after:"at half past six.", word:"(on)", ans:["comes on"]},
+  {orig:"The documentary didn't really explore why the rainforests are being cut down.", before:"The documentary didn't really", after:"why the rainforests are being cut down.", word:"(into)", ans:["go into"]},
+  {orig:"I had a quick look at the magazine in the dentist's waiting room.", before:"I", after:"the magazine in the dentist's waiting room.", word:"(through)", ans:["flicked through"]},
+  {orig:"I don't think we need to mention that now.", before:"I don't think we need to", after:"now.", word:"(up)", ans:["bring that up","bring up that"]},
+  {orig:"Your lies don't fool me!", before:"I can", after:"your lies!", word:"(through)", ans:["see through"]},
+];
+
+const EX_E = [
+  {t:"It's not always easy to ______ the difference between fact and opinion.",o:["make","do","say","tell"],a:3},
+  {t:"The debate will ______ place tonight.",o:["be","have","take","make"],a:2},
+  {t:"In my ______, freedom of the press must be maintained.",o:["mind","view","sight","thought"],a:1},
+  {t:"Media mogul Ronald Morduck has ______ control of another tabloid.",o:["made","found","given","taken"],a:3},
+  {t:"They ______ a description of the robber on CrimeTime and it sounded like you!",o:["made","told","said","gave"],a:3},
+  {t:"J.K. Rowling has ______ an enormous influence on children's literature.",o:["had","given","done","set"],a:0},
+  {t:"I could spend hours ______ the Internet!",o:["surfing","diving","sailing","swimming"],a:0},
+  {t:"They said ______ the news that the price of petrol is going up again.",o:["from","in","on","at"],a:2},
+  {t:"The issue ______ question is more complex than you think.",o:["from","in","on","at"],a:1},
+  {t:"Watch ______ for words like 'so-called' in articles as they express the writer's bias.",o:["about","around","over","out"],a:3},
+];
+
+const EX_F = [
+  {before:"He's been described by several critics", wrongWord:"for", after:"our greatest living poet.", ans:["as"]},
+  {before:"I think you've confused tabloids", wrongWord:"by", after:"broadsheets.", ans:["with"]},
+  {before:"Do you believe", wrongWord:"about", after:"telepathy?", ans:["in"]},
+  {before:"There's no point", wrongWord:"of", after:"trying to get an interview with him. He never does interviews!", ans:["in"]},
+  {before:"According", wrongWord:"from", after:"this report, scientists have discovered a new planet.", ans:["to"]},
+  {before:"The facts in this article don't correspond", wrongWord:"about", after:"my own experience at all.", ans:["with"]},
+];
+
+const EX_H = [
+  {before:"Why do press photographers think they can turn up at a celebrity's house completely",cap:"ANNOUNCE",after:"?",ans:["unannounced"]},
+  {before:"How many means of",cap:"COMMUNICATE",after:"do you use on a regular basis?",ans:["communication"]},
+  {before:"Could you write an",cap:"EDIT",after:"for the next issue of the school magazine?",ans:["editorial"]},
+  {before:"You have to have a sense of",cap:"HUMOUR",after:"to work on children's TV!",ans:["humour"]},
+  {before:"There's an",cap:"WRITE",after:"rule on tabloid newspapers that the truth always takes second place to a good story.",ans:["unwritten"]},
+  {before:"When Jill was at",cap:"SECOND",after:"school she used to dream of being a DJ on local radio.",ans:["secondary"]},
+  {before:"Are you thinking of a career in",cap:"JOURNAL",after:"?",ans:["journalism"]},
+  {before:"You don't actually get a lot of",cap:"INFORM",after:"from a news report on radio or TV.",ans:["information"]},
+];
+
+const EX_I = [
+  {before:"I love watching",cap:"DISCUSS",after:"programmes, and I love politics, so you'd think I'd enjoy watching",ans:["discussion"]},
+  {before:"",cap:"POLITICS",after:"being interviewed on TV. But I don't. All too often,",ans:["politicians"]},
+  {before:"",cap:"JOURNAL",after:"ask them the most",ans:["journalists"]},
+  {before:"",cap:"RIDICULE",after:"questions, and, when they do get an interesting question, I sit there watching in",ans:["ridiculous"]},
+  {before:"",cap:"BELIEVE",after:"as some of the most",ans:["disbelief"]},
+  {before:"",cap:"POWER",after:"people in the country give totally",ans:["powerful"]},
+  {before:"",cap:"CONVINCE",after:"responses. It's as if they don't care whether their reply is",ans:["unconvincing"]},
+  {before:"",cap:"BELIEVE",after:"or not. Often, they're very poor",ans:["believable"]},
+  {before:"",cap:"COMMUNICATE",after:", and they're frequently even more",ans:["communicators"]},
+  {before:"",cap:"INFORM",after:"about key issues than I am. I don't expect them to be particularly",ans:["uninformed"]},
+  {before:"",cap:"HUMOUR",after:"— they are serious people, after all — but at least they could say something interesting occasionally. It makes me want to stand for election myself!",ans:["humorous"]},
+];
+
+/* ============ GENERIC BUILDERS ============ */
+function normalize(s){ return s.toLowerCase().replace(/[.,!?]/g,'').replace(/\s+/g,' ').trim(); }
+
+function buildFill(containerId, items, opts={}){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((it,i)=>{
+    const num = (opts.startAt||1)+i;
+    const origLine = it.orig ? `<div class="orig-line" style="width:100%;font-size:13px;color:var(--ink-soft);margin-bottom:2px;">${num}. <i>${it.orig}</i></div>` : '';
+    return `<div class="prow" data-i="${i}">
+      ${origLine}
+      <span class="qn">${it.orig?'':num+'.'}</span>
+      <span>${it.before}</span>
+      ${it.cap?`<span class="capw">${it.cap}</span>`:''}
+      ${it.word?`<span class="capw">${it.word}</span>`:''}
+      ${it.wrongWord?`<span class="wrongw">${it.wrongWord}</span>`:''}
+      <input type="text" placeholder="${opts.placeholder||'type answer'}">
+      <span>${it.after||''}</span>
+      <span class="reveal"></span>
+    </div>`;
+  }).join('');
+}
+function checkFill(containerId, items, scoreId){
+  const el = document.getElementById(containerId); let score=0;
+  el.querySelectorAll('.prow').forEach((row,i)=>{
+    const it = items[i]; const input = row.querySelector('input');
+    const ok = it.ans.some(a=> normalize(a)===normalize(input.value));
+    input.classList.remove('correct','incorrect'); input.classList.add(ok?'correct':'incorrect');
+    const reveal = row.querySelector('.reveal');
+    if(!ok){ reveal.style.display='inline'; reveal.textContent='→ '+it.ans[0]; } else { reveal.style.display='none'; }
+    if(ok) score++;
+  });
+  document.getElementById(scoreId).textContent = `Score: ${score} / ${items.length}`;
+}
+
+function buildMCQ(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((it,i)=>`
+    <div class="mcq-item" data-i="${i}">
+      <div class="mcq-q"><span class="qn">${i+1}.</span>${it.t}</div>
+      <div class="mcq-opts">${it.o.map((o,oi)=>`<button data-oi="${oi}">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}</div>
+    </div>`).join('');
+  el.querySelectorAll('.mcq-item').forEach((itemEl,i)=>{
+    itemEl.querySelectorAll('.mcq-opts button').forEach((btn,oi)=>{
+      btn.addEventListener('click', ()=>{
+        itemEl.querySelectorAll('.mcq-opts button').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected'); items[i].picked = oi;
+      });
+    });
+  });
+}
+function checkMCQ(containerId, items, scoreId){
+  const el = document.getElementById(containerId); let score=0;
+  el.querySelectorAll('.mcq-item').forEach((itemEl,i)=>{
+    const it = items[i];
+    itemEl.querySelectorAll('.mcq-opts button').forEach((btn,oi)=>{
+      btn.classList.remove('correct','wrong');
+      if(oi===it.a) btn.classList.add('correct'); else if(it.picked===oi) btn.classList.add('wrong');
+    });
+    if(it.picked===it.a) score++;
+  });
+  document.getElementById(scoreId).textContent = `Score: ${score} / ${items.length}`;
+}
+
+/* ============ ASSEMBLE SECTIONS ============ */
+const SECTIONS = [
+  {id:'secA',letter:'A',title:'Topic vocabulary in contrast',instr:'Chọn đúng từ trong khung và điền đúng dạng.'},
+  {id:'secB',letter:'B',title:'Circle the correct word or phrase',instr:'Chọn từ/cụm từ đúng.'},
+  {id:'secC',letter:'C',title:'Phrasal verbs — write one word in each gap',instr:'Điền một từ thích hợp.'},
+  {id:'secD',letter:'D',title:'Rewrite using the word given (phrasal verb)',instr:'Viết lại câu dùng từ gợi ý, 2–5 từ mỗi chỗ trống.'},
+  {id:'secE',letter:'E',title:'Phrases and collocations — choose the correct answer',instr:'Chọn đáp án đúng.'},
+  {id:'secF',letter:'F',title:'Word patterns — each bold word is incorrect',instr:'Viết lại từ đúng để thay thế từ in đậm/gạch ngang.'},
+  {id:'secH',letter:'H',title:'Word formation',instr:'Dùng từ gợi ý (viết hoa) để tạo từ phù hợp.'},
+  {id:'secI',letter:'I',title:'Politics on TV — word formation',instr:'Dùng từ gợi ý để hoàn thành đoạn văn.'},
+];
+
+function buildAll(){
+  document.getElementById('jumpnav').innerHTML = SECTIONS.map(s=>`<a href="#${s.id}">${s.letter}</a>`).join('');
+  const wrap = document.getElementById('sections');
+  wrap.innerHTML = SECTIONS.map(s=>`
+    <div class="psec" id="${s.id}">
+      <div class="psec-head"><div class="psec-icon">${s.letter}</div><div class="psec-title">${s.title}</div></div>
+      <div class="psec-instr">${s.instr}</div>
+      <div id="${s.id}-body"></div>
+      <div class="checkbar"><button class="check-btn" id="${s.id}-check">Check answers</button><span class="result-tag" id="${s.id}-score"></span></div>
+    </div>`).join('');
+
+  // A
+  document.getElementById('secA-body').innerHTML = `<div class="bank">${A_BANKS.flat().map(w=>`<span>${w}</span>`).join('')}</div><div id="secA-list"></div>`;
+  buildFill('secA-list', EX_A);
+  document.getElementById('secA-check').addEventListener('click', ()=> checkFill('secA-list', EX_A, 'secA-score'));
+
+  // B
+  buildMCQ('secB-body', EX_B);
+  document.getElementById('secB-check').addEventListener('click', ()=> checkMCQ('secB-body', EX_B, 'secB-score'));
+
+  // C
+  buildFill('secC-body', EX_C, {placeholder:'one word'});
+  document.getElementById('secC-check').addEventListener('click', ()=> checkFill('secC-body', EX_C, 'secC-score'));
+
+  // D
+  buildFill('secD-body', EX_D, {placeholder:'2-5 words'});
+  document.getElementById('secD-check').addEventListener('click', ()=> checkFill('secD-body', EX_D, 'secD-score'));
+
+  // E
+  buildMCQ('secE-body', EX_E);
+  document.getElementById('secE-check').addEventListener('click', ()=> checkMCQ('secE-body', EX_E, 'secE-score'));
+
+  // F
+  buildFill('secF-body', EX_F, {placeholder:'correct word'});
+  document.getElementById('secF-check').addEventListener('click', ()=> checkFill('secF-body', EX_F, 'secF-score'));
+
+  // H
+  buildFill('secH-body', EX_H, {placeholder:'word form'});
+  document.getElementById('secH-check').addEventListener('click', ()=> checkFill('secH-body', EX_H, 'secH-score'));
+
+  // I
+  buildFill('secI-body', EX_I, {placeholder:'word form'});
+  document.getElementById('secI-check').addEventListener('click', ()=> checkFill('secI-body', EX_I, 'secI-score'));
+}
+buildAll();
+</script>
+</body>
+</html>
